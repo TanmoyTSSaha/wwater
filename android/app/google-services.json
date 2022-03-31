@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "918475789123",
+    "project_id": "wwater-1a0a2",
+    "storage_bucket": "wwater-1a0a2.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:918475789123:android:6ac75a8abdbc787574d5f6",
+        "android_client_info": {
+          "package_name": "com.example.wwater"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "918475789123-lo4i71tlsmese6pcl7h66l263875p7rp.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBgCj_zYl2QHyRH1811JHT8_NpI6YaHvVo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "918475789123-lo4i71tlsmese6pcl7h66l263875p7rp.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
