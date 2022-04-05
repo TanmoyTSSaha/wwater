@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:wwater/services/user.dart';
+import 'package:wwater/screens/home.dart';
 import 'authenticate.dart';
 
 class Wrapper extends StatelessWidget {
@@ -6,6 +9,9 @@ class Wrapper extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Authenticate();
+    final user = Provider.of<AppUser?>(context);
+    print(user);
+
+    return user == null ? const Authenticate() : Home();
   }
 }
