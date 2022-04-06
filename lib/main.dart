@@ -21,6 +21,8 @@ class Wwater extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return StreamProvider<AppUser?>.value(
+      catchError: (_, __) =>
+          null, //After adding this line StreamProvider's initialData throws no exception such as "StreamProvider<AppUser?>, but no `catchError` was provided.".
       value: AuthServices().user,
       initialData: null,
       child: MaterialApp(

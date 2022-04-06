@@ -9,17 +9,38 @@ class AuthServices {
     return user != null ? AppUser(uid: user.uid) : null;
   }
 
-  Stream<AppUser?> get user {
+  Stream<AppUser> get user {
     return _auth
         .authStateChanges()
-        .map((User? user) => _userFromFireBaseUser(user!));
+        .map((User? user) => _userFromFireBaseUser(user!)!);
   }
 
 //Codes for Signing in Anonymously
-  Future SignInAnon() async {
+  Future signInAnon() async {
     try {
       UserCredential userCredential =
           await FirebaseAuth.instance.signInAnonymously();
+      User user = userCredential.user!;
+      return _userFromFireBaseUser(user);
+    } catch (e) {
+      print(e.toString());
+      return null;
+    }
+  }
+
+  //Sign In with Email and Password.
+  // Future signInwithEmailAndPassword(String email, String password) async {
+  //   try {
+  //     UserCredential userCredential = await _auth.signInWithCredential()
+  //   } catch (e) {
+  //   }
+  // }
+
+  //Register with Email and Password.
+  Future registerWithEmailAndPassword(String email, String password) async {
+    try {
+      UserCredential userCredential = await _auth
+          .createUserWithEmailAndPassword(email: email, password: password);
       User user = userCredential.user!;
       return _userFromFireBaseUser(user);
     } catch (e) {

@@ -18,8 +18,8 @@ class Login extends StatefulWidget {
 class _LoginState extends State<Login> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
-  final TextEditingController emailController = TextEditingController();
-  final TextEditingController passwordController = TextEditingController();
+  String email = '';
+  String password = '';
 
   bool showPassword = true;
 
@@ -70,7 +70,7 @@ class _LoginState extends State<Login> {
               left: height10 * 3,
               child: Container(
                 padding: const EdgeInsets.all(height10 * 2),
-                height: height10 * 40,
+                height: height10 * 41,
                 width: height10 * 30,
                 decoration: const BoxDecoration(
                   color: Colors.white,
@@ -97,7 +97,10 @@ class _LoginState extends State<Login> {
                           label: Text('Email'),
                           contentPadding: EdgeInsets.all(5),
                         ),
-                        validator: (email) => !EmailValidator.validate(email!)
+                        onChanged: (_email) {
+                          setState(() => email = _email);
+                        },
+                        validator: (_email) => !EmailValidator.validate(_email!)
                             ? "Enter valid Email!"
                             : null,
                       ),
@@ -123,9 +126,12 @@ class _LoginState extends State<Login> {
                           label: const Text('Password'),
                           contentPadding: const EdgeInsets.all(5),
                         ),
+                        onChanged: (_passsword) {
+                          setState(() => password = _passsword);
+                        },
                         validator: (_password) {
                           if (_password!.length < 6) {
-                            return "Password length must be atleast of 6 Characters.";
+                            return "Password must be atleast of 6 \nCharacters.";
                           } else if (_password.isEmpty) {
                             return "Password can't be Empty!";
                           }
@@ -143,12 +149,9 @@ class _LoginState extends State<Login> {
                       const SizedBox(height: height10 * 2),
                       ElevatedButton(
                         onPressed: () async {
-                          dynamic userCredential = await _auth.SignInAnon();
-                          if (userCredential == null) {
-                            print("Error logging in");
-                          } else {
-                            print("Logged in");
-                            print(userCredential.uid);
+                          if (_formKey.currentState!.validate()) {
+                            print(email);
+                            print(password);
                           }
                         },
                         child: const Text(

@@ -2,7 +2,8 @@ import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:wwater/constants.dart';
-import 'package:wwater/screens/welcome.dart';
+import 'package:wwater/screens/home.dart';
+import 'package:wwater/services/auth.dart';
 
 class Registration extends StatefulWidget {
   const Registration({Key? key}) : super(key: key);
@@ -13,12 +14,16 @@ class Registration extends StatefulWidget {
 
 class _RegistrationState extends State<Registration> {
   // late String _password;
-  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  final TextEditingController _name = TextEditingController();
-  final TextEditingController _username = TextEditingController();
-  final TextEditingController _email = TextEditingController();
-  final TextEditingController _password = TextEditingController();
-  final TextEditingController _confirmPassword = TextEditingController();
+  final AuthServices _auth = AuthServices();
+  GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  String _name = '';
+  String _username = '';
+  String _email = '';
+  String _password = '';
+  String _confirmPassword = '';
+  String error = '';
+  // String _password = '';
+  // String _confirmPassword = '';
   bool showPassword = true;
   bool showConfirmPassword = true;
 
@@ -95,12 +100,14 @@ class _RegistrationState extends State<Registration> {
                             label: Text('Name'),
                             contentPadding: EdgeInsets.all(5),
                           ),
+                          onChanged: (name) {
+                            setState(() {
+                              _name = name;
+                            });
+                          },
                           validator: (_name) {
                             if (_name!.isEmpty) {
                               return "Name field can't be Empty!";
-                            } else if (_name.length >= 3 &&
-                                _name.length <= 30) {
-                              return "Please enter a valid Name";
                             }
                             return null;
                           },
@@ -114,6 +121,11 @@ class _RegistrationState extends State<Registration> {
                             label: Text('Username'),
                             contentPadding: EdgeInsets.all(5),
                           ),
+                          onChanged: (username) {
+                            setState(() {
+                              _username = username;
+                            });
+                          },
                           validator: (_username) {
                             if (_username!.isEmpty) {
                               return "Username field can't be Empty!";
@@ -131,6 +143,11 @@ class _RegistrationState extends State<Registration> {
                             label: Text('Email'),
                             contentPadding: EdgeInsets.all(5),
                           ),
+                          onChanged: (email) {
+                            setState(() {
+                              _email = email;
+                            });
+                          },
                           validator: (_email) =>
                               !EmailValidator.validate(_email!)
                                   ? "Enter a valid Email"
@@ -157,12 +174,16 @@ class _RegistrationState extends State<Registration> {
                             label: const Text('Password'),
                             contentPadding: const EdgeInsets.all(5),
                           ),
-                          controller: _password,
+                          onChanged: (password) {
+                            setState(() {
+                              _password = password;
+                            });
+                          },
                           validator: (password) {
                             if (password!.length > 6) {
                               return null;
                             } else {
-                              return "Password must be greater than 6 Characters!";
+                              return "Password must be atleast of 6 Characters!";
                             }
                           },
                         ),
@@ -187,7 +208,6 @@ class _RegistrationState extends State<Registration> {
                             label: Text('Confirm Password'),
                             contentPadding: EdgeInsets.all(5),
                           ),
-                          controller: _confirmPassword,
                           validator: (confirmPassword) {
                             if (confirmPassword == _password) {
                               return null;
@@ -196,18 +216,27 @@ class _RegistrationState extends State<Registration> {
                             }
                           },
                         ),
-                        const SizedBox(height: height10 * 4),
+                        SizedBox(
+                          height: 20,
+                          child: error != null
+                              ? Text(error,
+                                  style: const TextStyle(
+                                      color: Colors.red, fontSize: 14.0))
+                              : null,
+                        ),
+                        const SizedBox(height: height10 * 2),
                         ElevatedButton(
-                          onPressed: () {
+                          onPressed: () async {
                             if (_formKey.currentState!.validate()) {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => const Welcome(),
-                                ),
-                              );
-                            } else {
-                              return;
+                              dynamic userCredential =
+                                  await _auth.registerWithEmailAndPassword(
+                                      _email, _password);
+                              if (userCredential == null) {
+                                setState(() => error =
+                                    'Please give your valid Credential!');
+                              } else {
+                                return;
+                              }
                             }
                           },
                           child: const Text(
