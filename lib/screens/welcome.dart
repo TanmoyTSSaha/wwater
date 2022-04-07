@@ -59,13 +59,18 @@ class Welcome extends StatelessWidget {
                     child: const Text(
                       'Login',
                       style: TextStyle(
-                        color: wSecondaryColor,
+                        color: Colors.white,
                         fontSize: height10 * 1.5,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
                     style: ElevatedButton.styleFrom(
-                      primary: Colors.white,
+                      primary: wSecondaryColor,
+                      onPrimary: Colors.white,
+                      side: const BorderSide(
+                        color: Colors.white60,
+                        width: height10 * 0.2,
+                      ),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(height10 * 0.5),
                       ),
@@ -84,6 +89,32 @@ class Welcome extends StatelessWidget {
                     },
                     child: const Text(
                       'Register',
+                      style: TextStyle(
+                        color: wSecondaryColor,
+                        fontSize: height10 * 1.5,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    style: ElevatedButton.styleFrom(
+                      primary: Colors.white,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(height10 * 0.5),
+                      ),
+                      minimumSize: const Size(height10 * 32, height10 * 4.5),
+                    ),
+                  ),
+                  const SizedBox(height: height10 * 2),
+                  ElevatedButton(
+                    onPressed: () {
+                      // Navigator.push(
+                      //   context,
+                      //   MaterialPageRoute(
+                      //     builder: (context) => const Login(),
+                      //   ),
+                      // );
+                    },
+                    child: const Text(
+                      'Login as Guest',
                       style: TextStyle(
                         color: Colors.white,
                         fontSize: height10 * 1.5,

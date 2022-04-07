@@ -29,12 +29,17 @@ class AuthServices {
   }
 
   //Sign In with Email and Password.
-  // Future signInwithEmailAndPassword(String email, String password) async {
-  //   try {
-  //     UserCredential userCredential = await _auth.signInWithCredential()
-  //   } catch (e) {
-  //   }
-  // }
+  Future signInWithEmailAndPassword(String email, String password) async {
+    try {
+      UserCredential userCredential = await _auth.signInWithEmailAndPassword(
+          email: email, password: password);
+      User user = userCredential.user!;
+      return _userFromFireBaseUser(user);
+    } catch (e) {
+      print(e.toString());
+      return null;
+    }
+  }
 
   //Register with Email and Password.
   Future registerWithEmailAndPassword(String email, String password) async {

@@ -180,7 +180,7 @@ class _RegistrationState extends State<Registration> {
                             });
                           },
                           validator: (password) {
-                            if (password!.length > 6) {
+                            if (password!.length >= 6) {
                               return null;
                             } else {
                               return "Password must be atleast of 6 Characters!";
@@ -221,7 +221,7 @@ class _RegistrationState extends State<Registration> {
                           child: error != null
                               ? Text(error,
                                   style: const TextStyle(
-                                      color: Colors.red, fontSize: 14.0))
+                                      color: Colors.red, fontSize: 12.0))
                               : null,
                         ),
                         const SizedBox(height: height10 * 2),
@@ -232,10 +232,10 @@ class _RegistrationState extends State<Registration> {
                                   await _auth.registerWithEmailAndPassword(
                                       _email, _password);
                               if (userCredential == null) {
-                                setState(() => error =
-                                    'Please give your valid Credential!');
-                              } else {
-                                return;
+                                setState(
+                                  () => error =
+                                      'Please give your valid Credential!',
+                                );
                               }
                             }
                           },

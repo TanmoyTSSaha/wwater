@@ -20,6 +20,7 @@ class _LoginState extends State<Login> {
 
   String email = '';
   String password = '';
+  String error = '';
 
   bool showPassword = true;
 
@@ -146,12 +147,25 @@ class _LoginState extends State<Login> {
                           textColor: wSecondaryColor,
                         ),
                       ),
+                      SizedBox(
+                        height: 20,
+                        child: error != null
+                            ? Text(error,
+                                style: const TextStyle(
+                                    color: Colors.red, fontSize: 12.0))
+                            : null,
+                      ),
+                      const SizedBox(height: height10 * 2),
                       const SizedBox(height: height10 * 2),
                       ElevatedButton(
                         onPressed: () async {
                           if (_formKey.currentState!.validate()) {
-                            print(email);
-                            print(password);
+                            dynamic userCredential = await _auth
+                                .signInWithEmailAndPassword(email, password);
+                            if (userCredential == null) {
+                              setState(() => error =
+                                  "Couldn't Sign In with these Credentials!");
+                            }
                           }
                         },
                         child: const Text(
